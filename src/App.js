@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import Frase from './components/frase';
+import './app.css'
+
+
 
 function App() {
+
+  //state de frase
+  const [frase, obtenerFrase] = useState({});
+
+  const consultarApi = async () =>{
+    
+    const api = await fetch('https://breaking-bad-quotes.herokuapp.com/v1/quotes');
+
+    const frase = await  api.json();
+    console.log(frase[0])
+    obtenerFrase(frase[0]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  
+    <div className='contenedor'>
+
+      <Frase
+        frase={frase}
+      />
+
+      <button
+        className='btn'
+        onClick={consultarApi}
+      >Frases de brakingBad</button>
+      
     </div>
+    
+    
   );
 }
 
